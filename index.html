@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BAR PEAT | バー ピート – 本八幡 オーセンティックバー</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Shippori+Mincho:wght@400;500;600&family=Noto+Serif+JP:wght@300;400;500&family=Zen+Old+Mincho:wght@400;500&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <!-- Swiper -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <style>
+    /* ════════════════════════════════════════
+       Variables
+    ════════════════════════════════════════ */
+    :root {
+      --color-base:       #160B0B;
+      --color-base-light: #221010;
+      --color-card:       #1E0E0E;
+      --color-card-alt:   #2A1414;
+
+      --color-accent:       #9B2335;
+      --color-accent-muted: #C03A52;
+      --color-accent-dk:    #6B1522;
+
+      --color-text-main:  #EDE8E2;
+      --color-text-muted: #ADA09A;
+      --color-text-dim:   #726361;
+
+      --color-border:     rgba(155,35,53,.22);
+      --color-border-str: rgba(155,35,53,.42);
+
+      --color-footer:    #0E0707;
+
+      --ff-heading-jp: 'Shippori Mincho', 'Noto Serif JP', serif;
+      --ff-en:         'Playfair Display', 'Cormorant Garamond', serif;
+      --ff-body:       'Zen Old Mincho', 'Yu Mincho', 'Noto Serif JP', serif;
+      --ff-sans:       'Montserrat', sans-serif;
+
+      --ff-serif:       var(--ff-heading-jp);
+      --color-theme:    var(--color-accent);
+      --color-theme-lt: var(--color-accent-muted);
+      --color-bg:       var(--color-base);
+      --color-bg-gray:  var(--color-base-light);
+      --color-muted:    var(--color-text-muted);
+
+      --container: 1040px;
+      --tr: .5s;
+    }
+
+    /* ════════════════════════════════════════
+       Reset & Base
+    ════════════════════════════════════════ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--ff-body);
+      font-size: 1.4rem;
+      font-weight: 400;
+      line-height: 1.95;
+      color: var(--color-text-main);
+      background: var(--color-base);
+      overflow-x: hidden;
+    }
+    img { display: block; width: 100%; height: 100%; object-fit: cover; }
+    a   { color: inherit; text-decoration: none; transition: opacity var(--tr); }
+    a:hover { opacity: .7; }
+    ul, ol { list-style: none; }
+
+    /* ── Vintage grain overlay ── */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 9997;
+      pointer-events: none;
+      opacity: .038;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.72' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: 200px 200px;
+    }
+
+    /* ════════════════════════════════════════
+       Layout
+    ════════════════════════════════════════ */
+    .l_container {
+      width: min(var(--container), 100%);
+      margin-inline: auto;
+      padding-inline: 25px;
+    }
+
+    .l_sect   { padding: 120px 0; }
+    .l_sect02 { padding: 80px 0; }
+    .l_bgGray { background: var(--color-base-light); }
+
+    /* ════════════════════════════════════════
+       Loading Screen
+    ════════════════════════════════════════ */
+    #js_loading {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: var(--color-base);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: opacity .8s ease, visibility .8s ease;
+    }
+    #js_loading.is_hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+    .loading_logo {
+      font-family: var(--ff-en);
+      font-size: 2.4rem;
+      font-weight: 700;
+      letter-spacing: .38em;
+      color: var(--color-accent);
+      margin-bottom: .6rem;
+    }
+    .loading_sub {
+      font-family: var(--ff-sans);
+      font-size: .52rem;
+      letter-spacing: .32em;
+      text-transform: uppercase;
+      color: var(--color-text-dim);
+      margin-bottom: 2.4rem;
+    }
+    .loading_bar {
+      width: 160px;
+      height: 1px;
+      background: rgba(155,35,53,.18);
+      position: relative;
+      overflow: hidden;
+    }
+    .loading_bar::after {
+      content: '';
+      position: absolute;
+      left: 0; top: 0;
+      height: 100%;
+      width: 0;
+      background: var(--color-accent);
+      animation: loadBar 1.5s cubic-bezier(.4,0,.2,1) forwards;
+    }
+    @keyframes loadBar { to { width: 100%; } }
+
+    /* ════════════════════════════════════════
+       Heading System
+    ════════════════════════════════════════ */
+    .c_headingLv1 {
+      text-align: left;
+      margin-bottom: 60px;
+    }
+    .c_headingLv1 .en {
+      display: block;
+      font-family: var(--ff-sans);
+      font-size: .62rem;
+      font-weight: 400;
+      letter-spacing: .38em;
+      color: var(--color-accent);
+      margin-bottom: .8rem;
+      text-transform: uppercase;
+    }
+    .c_borderTitle {
+      display: inline-block;
+      font-family: var(--ff-heading-jp);
+      font-size: 2.4rem;
+      font-weight: 500;
+      letter-spacing: .12em;
+      line-height: 1.3;
+      color: var(--color-text-main);
+      position: relative;
+      padding-bottom: 24px;
+    }
+    .c_borderTitle::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      transform: scaleX(0);
+      transform-origin: left;
+      width: 40px; height: 1px;
+      background: var(--color-theme);
+      transition: transform .8s cubic-bezier(.25,.46,.45,.94);
+    }
+    .c_borderTitle.is_animated::after { transform: scaleX(1); }
+
+    .c_headingLv2 { margin-bottom: 30px; }
+    .c_headingLv2 .en {
+      display: block;
+      font-family: var(--ff-en);
+      font-size: .95rem;
+      letter-spacing: .18em;
+      color: var(--color-theme);
+      text-transform: uppercase;
+      margin-bottom: .4rem;
+    }
+    .c_headingLv2 .ja {
+      font-family: var(--ff-heading-jp);
+      font-size: clamp(1.2rem, 5.5vw, 1.8rem);
+      font-weight: 500;
+      letter-spacing: .08em;
+      line-height: 1.5;
+      color: var(--color-text-main);
+      white-space: nowrap;
+    }
+
+    .c_lead {
+      font-family: var(--ff-body);
+      font-size: 1rem;
+      font-weight: 400;
+      line-height: 2.4;
+      color: var(--color-text-muted);
+      letter-spacing: .06em;
+    }
+    .c_lead p + p { margin-top: 1.2em; }
+
+    /* ════════════════════════════════════════
+       Header
+    ════════════════════════════════════════ */
+    #header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      padding: 0 40px;
+      height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: background var(--tr), box-shadow var(--tr);
+      background: rgba(22,11,11,.08);
+    }
+    #header.is_color {
+      background: rgba(14,7,7,.96);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--color-border);
+    }
+    .header_logo {
+      font-family: var(--ff-en);
+      font-size: 1.55rem;
+      font-weight: 700;
+      letter-spacing: .24em;
+      color: var(--color-text-main);
+      line-height: 1;
+    }
+    .header_logo small {
+      display: block;
+      font-family: var(--ff-sans);
+      font-size: .48rem;
+      font-weight: 300;
+      letter-spacing: .32em;
+      text-transform: uppercase;
+      color: var(--color-text-dim);
+      margin-top: 4px;
+    }
+    .header_nav { display: flex; align-items: center; gap: 2.4rem; }
+    .header_nav a {
+      font-family: var(--ff-sans);
+      font-size: .66rem;
+      font-weight: 400;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+      transition: color var(--tr);
+    }
+    .header_nav a:hover { color: var(--color-accent-muted); opacity: 1; }
+
+    .header_right {
+      display: flex;
+      align-items: center;
+      gap: 1.6rem;
+    }
+    .header_sns {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .header_sns a {
+      color: var(--color-text-muted);
+      font-size: 1rem;
+      transition: color var(--tr);
+    }
+    .header_sns a:hover { color: var(--color-accent-muted); opacity: 1; }
+
+    .header_reserve {
+      font-family: var(--ff-sans);
+      font-size: .62rem;
+      font-weight: 400;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: var(--color-base);
+      background: var(--color-accent);
+      padding: .58rem 1.5rem;
+      transition: background var(--tr);
+    }
+    .header_reserve:hover { background: var(--color-accent-muted); opacity: 1; }
+
+    .header_hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 6px;
+      cursor: pointer;
+      padding: 4px;
+      background: none;
+      border: none;
+    }
+    .header_hamburger span {
+      display: block; width: 26px; height: 1px;
+      background: #fff; transition: var(--tr);
+    }
+
+    /* ════════════════════════════════════════
+       Mobile Nav Drawer
+    ════════════════════════════════════════ */
+    .mobile_nav_overlay {
+      position: fixed; inset: 0; z-index: 9998;
+      background: rgba(14,7,7,.97);
+      backdrop-filter: blur(10px);
+      display: flex; flex-direction: column;
+      justify-content: center; align-items: center;
+      opacity: 0; pointer-events: none;
+      transition: opacity .4s ease;
+    }
+    .mobile_nav_overlay.is_open {
+      opacity: 1; pointer-events: auto;
+    }
+    .mobile_nav_inner {
+      display: flex; flex-direction: column;
+      align-items: center; gap: 2.4rem;
+      text-align: center;
+    }
+    .mobile_nav_link {
+      font-family: var(--ff-en);
+      font-size: 2rem; font-weight: 400;
+      letter-spacing: .18em;
+      color: var(--color-text-main);
+      text-transform: uppercase;
+      transition: color .3s;
+    }
+    .mobile_nav_link:hover { color: var(--color-accent); opacity: 1; }
+    .mobile_nav_footer {
+      position: absolute; bottom: 48px;
+      display: flex; flex-direction: column;
+      align-items: center; gap: 1.2rem;
+    }
+    .mobile_nav_sns {
+      display: flex; gap: 1.6rem;
+    }
+    .mobile_nav_sns a {
+      font-size: 1.4rem;
+      color: var(--color-text-muted);
+      transition: color .3s;
+    }
+    .mobile_nav_sns a:hover { color: var(--color-accent); opacity: 1; }
+    .mobile_nav_tel {
+      font-family: var(--ff-sans);
+      font-size: .65rem; letter-spacing: .22em;
+      color: var(--color-text-dim);
+    }
+    /* Hamburger → X animation */
+    .header_hamburger.is_open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .header_hamburger.is_open span:nth-child(2) { opacity: 0; }
+    .header_hamburger.is_open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* ════════════════════════════════════════
+       Hero Slider
+    ════════════════════════════════════════ */
+    #hero {
+      position: relative;
+      height: 100svh;
+      min-height: 600px;
+      overflow: hidden;
+    }
+    .hero_swiper { width: 100%; height: 100%; }
+    .hero_swiper .swiper-slide { position: relative; overflow: hidden; }
+    .hero_swiper .swiper-slide img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: center;
+      filter: brightness(.38) saturate(.55) sepia(.25);
+      transform: scale(1.0);
+      transition: transform 7s ease;
+    }
+    .hero_swiper .swiper-scrollbar {
+      height: 2px;
+      background: rgba(255,255,255,.2);
+      bottom: 0; left: 0; width: 100%;
+      border-radius: 0;
+    }
+    .hero_swiper .swiper-scrollbar-drag {
+      background: var(--color-theme);
+      border-radius: 0;
+    }
+    .hero_content {
+      position: absolute; inset: 0; z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: #fff;
+    }
+    .hero_eyebrow {
+      font-family: var(--ff-sans);
+      font-size: .62rem; font-weight: 400;
+      letter-spacing: .42em; text-transform: uppercase;
+      color: var(--color-theme-lt);
+      margin-bottom: 1.8rem;
+      opacity: 0;
+      animation: hFadeUp .9s .4s forwards;
+    }
+    .hero_title {
+      font-family: var(--ff-en);
+      font-size: clamp(4.5rem, 11vw, 9rem);
+      font-weight: 700; letter-spacing: .2em; line-height: 1;
+      color: var(--color-text-main);
+      opacity: 0;
+      animation: hFadeUp .9s .65s forwards;
+    }
+    .hero_sub {
+      font-family: var(--ff-heading-jp);
+      font-size: clamp(.88rem, 1.8vw, 1.1rem);
+      font-weight: 400; letter-spacing: .32em;
+      color: var(--color-text-muted);
+      margin-top: 1.4rem;
+      opacity: 0;
+      animation: hFadeUp .9s .9s forwards;
+    }
+    .hero_scroll {
+      position: absolute; bottom: 3rem; left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      display: flex; flex-direction: column; align-items: center; gap: .6rem;
+      opacity: 0;
+      animation: hFadeIn 1s 1.4s forwards;
+    }
+    .hero_scroll span {
+      font-family: var(--ff-sans);
+      font-size: .52rem; font-weight: 400;
+      letter-spacing: .3em; text-transform: uppercase;
+      color: rgba(255,255,255,.5);
+    }
+    .hero_scroll::after {
+      content: '';
+      display: block; width: 1px; height: 48px;
+      background: linear-gradient(to bottom, rgba(255,255,255,.5), transparent);
+      animation: scrollLine 1.8s 1.6s ease infinite;
+    }
+    @keyframes scrollLine {
+      0%   { transform: scaleY(0); transform-origin: top; }
+      50%  { transform: scaleY(1); transform-origin: top; }
+      51%  { transform: scaleY(1); transform-origin: bottom; }
+      100% { transform: scaleY(0); transform-origin: bottom; }
+    }
+    @keyframes hFadeUp {
+      from { opacity:0; transform:translateY(20px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+    @keyframes hFadeIn { from { opacity:0; } to { opacity:1; } }
+
+    /* ════════════════════════════════════════
+       About + SNS 2-Column Section（Shannons スタイル）
+    ════════════════════════════════════════ */
+    #about_sns {
+      padding: 120px 0;
+      background: var(--color-base);
+    }
+    .about_sns_wrap {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .about_main_img {
+      width: 100%; height: 360px;
+      overflow: hidden;
+      margin-bottom: 2.8rem;
+    }
+    .about_main_img img { transition: transform .8s ease; }
+    .about_main_img:hover img { transform: scale(1.04); opacity: 1; }
+
+    .concept_tag {
+      display: inline-block;
+      font-family: var(--ff-sans);
+      font-size: .58rem; font-weight: 400;
+      letter-spacing: .28em; text-transform: uppercase;
+      color: var(--color-accent);
+      border-bottom: 1px solid var(--color-accent-dk);
+      padding-bottom: 4px;
+      margin-bottom: 1.6rem;
+    }
+    .about_photo_swiper_wrap {
+      margin-bottom: 2.8rem;
+      margin-top: 1.6rem;
+    }
+    .about_photo_swiper { width: 100%; }
+    .about_photo_swiper .swiper-slide { overflow: hidden; height: 320px; }
+    .about_photo_swiper .swiper-slide img {
+      width: 100%; height: 100%; object-fit: cover;
+    }
+    .about_photo_swiper .swiper-pagination { bottom: 10px; }
+    .about_photo_swiper .swiper-pagination-bullet {
+      background: rgba(255,255,255,.5); opacity: 1; transition: background .3s;
+    }
+    .about_photo_swiper .swiper-pagination-bullet-active { background: var(--color-accent); }
+
+
+
+
+
+    /* ════════════════════════════════════════
+       Access
+    ════════════════════════════════════════ */
+    #access { padding: 120px 0; }
+    .access_grid {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 80px; align-items: start;
+    }
+    .access_map { height: 380px; overflow: hidden; border: 1px solid var(--color-border); }
+    .access_map iframe { width: 100%; height: 100%; border: 0; filter: sepia(.3) saturate(.7); }
+    .access_route {
+      margin-top: 2rem;
+      background: var(--color-base-light);
+      padding: 2rem 2.4rem;
+      border: 1px solid var(--color-border);
+    }
+    .access_route p {
+      font-family: var(--ff-body);
+      font-size: .92rem; color: var(--color-text-muted);
+      line-height: 2.1;
+      display: flex; gap: .6rem;
+    }
+    .access_route p + p {
+      margin-top: .6rem; padding-top: .6rem;
+      border-top: 1px solid var(--color-border);
+    }
+    .access_route .icon { color: var(--color-theme); flex-shrink: 0; }
+
+    .info_table { width: 100%; border-collapse: collapse; }
+    .info_table tr { border-bottom: 1px solid var(--color-border); }
+    .info_table th {
+      font-family: var(--ff-sans);
+      font-size: .62rem; font-weight: 400;
+      letter-spacing: .2em; text-transform: uppercase;
+      color: var(--color-theme);
+      text-align: left;
+      padding: 1.2rem 1.4rem 1.2rem 0;
+      width: 34%; vertical-align: top; white-space: nowrap;
+    }
+    .info_table td {
+      font-family: var(--ff-body);
+      font-size: .98rem; color: var(--color-text-main);
+      padding: 1.4rem 0; line-height: 2.0; vertical-align: top;
+    }
+    .info_table td strong { font-weight: 500; display: block; }
+    .info_table td small { display: block; font-size: .82rem; color: var(--color-muted); margin-top: .15rem; }
+    .badge_charge {
+      display: inline-block; margin-top: .4rem;
+      font-family: var(--ff-sans);
+      font-size: .6rem; font-weight: 400; letter-spacing: .1em;
+      color: var(--color-theme); border: 1px solid var(--color-theme);
+      padding: .2rem .7rem;
+    }
+    .card_list { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .5rem; }
+    .card_list li {
+      font-family: var(--ff-sans);
+      font-size: .58rem; font-weight: 400; letter-spacing: .08em;
+      color: var(--color-muted); border: 1px solid var(--color-border);
+      padding: .15rem .55rem;
+    }
+
+    /* ════════════════════════════════════════
+       CTA Section
+    ════════════════════════════════════════ */
+    #cta {
+      position: relative; padding: 200px 0;
+      text-align: center; overflow: hidden;
+    }
+    .cta_bg {
+      position: absolute; inset: 0;
+      background-image: url('logo.jpg');
+      background-color: #111; /* fallback */
+      background-size: cover; background-position: center;
+      filter: grayscale(100%) brightness(0.35);
+    }
+    .cta_content { position: relative; z-index: 1; color: #fff; }
+    .cta_title {
+      font-family: var(--ff-sans);
+      font-size: .62rem; font-weight: 400;
+      letter-spacing: .38em; text-transform: uppercase;
+      color: var(--color-theme-lt);
+      margin-bottom: 1rem;
+      display: block;
+    }
+    .cta_heading {
+      font-family: var(--ff-heading-jp);
+      font-size: 2.4rem; font-weight: 500;
+      letter-spacing: .12em; line-height: 1.3;
+      color: #fff; margin-bottom: 2.4rem;
+    }
+    .cta_tel {
+      display: inline-flex; align-items: center; gap: 1rem;
+      font-family: var(--ff-en);
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 400; letter-spacing: .1em;
+      color: #fff; margin-bottom: 1rem;
+      transition: opacity var(--tr);
+    }
+    .cta_tel:hover { opacity: .7; }
+    .cta_note {
+      font-family: var(--ff-sans);
+      font-size: .65rem; font-weight: 400;
+      letter-spacing: .18em; text-transform: uppercase;
+      color: rgba(255,255,255,.45);
+    }
+
+    /* ════════════════════════════════════════
+       Footer
+    ════════════════════════════════════════ */
+    #footer { background: var(--color-footer); padding: 60px 0 0; }
+    .footer_top {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 60px;
+      padding-bottom: 50px;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+    .footer_logo {
+      font-family: var(--ff-en);
+      font-size: 1.8rem; font-weight: 600;
+      letter-spacing: .2em; color: #fff;
+    }
+    .footer_logo small {
+      display: block;
+      font-family: var(--ff-sans);
+      font-size: .55rem; font-weight: 300;
+      letter-spacing: .3em; text-transform: uppercase;
+      color: rgba(255,255,255,.35);
+      margin-top: 4px;
+    }
+    .footer_addr {
+      font-family: var(--ff-serif);
+      font-size: .95rem;
+      color: rgba(255,255,255,.45);
+      line-height: 1.9; margin-top: 1.4rem;
+    }
+    .footer_sns_links {
+      display: flex; gap: 1.2rem;
+      margin-top: 1.6rem;
+    }
+    .footer_sns_links a {
+      display: flex; align-items: center; justify-content: center;
+      width: 36px; height: 36px;
+      border: 1px solid rgba(255,255,255,.15);
+      color: rgba(255,255,255,.5);
+      font-size: .95rem;
+      transition: border-color var(--tr), color var(--tr);
+    }
+    .footer_sns_links a:hover { border-color: var(--color-accent); color: var(--color-accent); opacity: 1; }
+    .footer_sns_links .ig:hover { border-color: #e1306c; color: #e1306c; }
+    .footer_sns_links .x:hover  { border-color: #fff; color: #fff; }
+    .footer_sns_links .fb:hover { border-color: #1877f2; color: #1877f2; }
+
+    .footer_nav_group { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+    .footer_nav_label {
+      font-family: var(--ff-sans);
+      font-size: .58rem; font-weight: 400;
+      letter-spacing: .22em; text-transform: uppercase;
+      color: rgba(255,255,255,.35);
+      margin-bottom: 1.2rem; padding-bottom: .6rem;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+    .footer_nav_group ul li { margin-bottom: .6rem; }
+    .footer_nav_group ul li a {
+      font-family: var(--ff-serif);
+      font-size: .92rem; color: rgba(255,255,255,.55);
+      transition: color var(--tr);
+    }
+    .footer_nav_group ul li a:hover { color: #fff; opacity: 1; }
+
+    .footer_copy {
+      background: var(--color-footer);
+      border-top: 1px solid rgba(155,35,53,.14);
+      text-align: center; padding: 1.6rem; margin-top: 0;
+    }
+    .footer_copy p {
+      font-family: var(--ff-sans);
+      font-size: .56rem; font-weight: 400;
+      letter-spacing: .18em; text-transform: uppercase;
+      color: var(--color-text-dim);
+    }
+
+    /* ════════════════════════════════════════
+       Side Button
+    ════════════════════════════════════════ */
+    .side_btn {
+      position: fixed; right: 0; bottom: 8%; z-index: 900;
+      writing-mode: vertical-rl;
+      background: var(--color-theme); color: #fff;
+      font-family: var(--ff-sans);
+      font-size: .6rem; font-weight: 400;
+      letter-spacing: .2em; text-transform: uppercase;
+      padding: 1.2rem .7rem;
+      transition: background var(--tr);
+    }
+    .side_btn:hover { background: var(--color-accent-dk); opacity: 1; }
+
+    /* ════════════════════════════════════════
+       Scroll Reveal
+    ════════════════════════════════════════ */
+    .js_reveal {
+      opacity: 0; transform: translateY(28px);
+      transition: opacity .8s ease, transform .8s ease;
+    }
+    .js_reveal.is_visible { opacity: 1; transform: translateY(0); }
+    .js_reveal:nth-child(2) { transition-delay: .1s; }
+    .js_reveal:nth-child(3) { transition-delay: .2s; }
+    .js_reveal:nth-child(4) { transition-delay: .3s; }
+
+    /* ════════════════════════════════════════
+       Responsive
+    ════════════════════════════════════════ */
+
+
+    @media (max-width: 768px) {
+      body { font-size: 1.2rem; }
+      #header { padding: 0 20px; }
+      .header_nav { display: none; }
+      .header_right .header_sns { display: none; }
+      .header_reserve { display: none; }
+      .header_hamburger { display: flex; }
+
+      #about_sns, #access { padding: 80px 0; }
+      #cta { padding: 80px 0; }
+
+      .c_borderTitle { font-size: 1.9rem; }
+
+      .access_grid, .footer_top { grid-template-columns: 1fr; gap: 40px; }
+      .footer_nav_group { grid-template-columns: 1fr 1fr; }
+      .side_btn { display: none; }
+      .about_main_img { height: 260px; }
+    }
+
+
+  </style>
+</head>
+<body>
+
+<!-- ══ LOADING SCREEN ══ -->
+<div id="js_loading">
+  <div class="loading_logo">BAR PEAT</div>
+  <div class="loading_sub">Bar &middot; Motoyawata</div>
+  <div class="loading_bar"></div>
+</div>
+
+<!-- ══ SIDE BTN ══ -->
+<a href="tel:0473783932" class="side_btn">Inquiry &amp; Tel</a>
+
+<!-- ══════════════ HEADER ══════════════ -->
+<header id="header">
+  <a href="#" class="header_logo">
+    BAR PEAT
+    <small>Bar &middot; Motoyawata</small>
+  </a>
+  <nav class="header_nav">
+    <a href="#about_sns">Concept</a>
+    <a href="#access">Access</a>
+  </nav>
+  <div class="header_right">
+    <div class="header_sns">
+      <a href="https://www.instagram.com/bar_peat_99/" target="_blank" rel="noopener" aria-label="Instagram">
+        <i class="fab fa-instagram"></i>
+      </a>
+      <a href="https://x.com/BARPEAT_1999" target="_blank" rel="noopener" aria-label="X">
+        <i class="fa-brands fa-x-twitter"></i>
+      </a>
+      <a href="https://www.facebook.com/takashi.morioka.75" target="_blank" rel="noopener" aria-label="Facebook">
+        <i class="fab fa-facebook-f"></i>
+      </a>
+    </div>
+    <a href="tel:0473783932" class="header_reserve">047-378-3932</a>
+  </div>
+  <button class="header_hamburger" aria-label="メニュー">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<!-- ══ MOBILE NAV DRAWER ══ -->
+<div class="mobile_nav_overlay" id="js_mobileNav">
+  <nav class="mobile_nav_inner">
+    <a href="#about_sns" class="mobile_nav_link">Concept</a>
+    <a href="#access" class="mobile_nav_link">Access</a>
+  </nav>
+  <div class="mobile_nav_footer">
+    <div class="mobile_nav_sns">
+      <a href="https://www.instagram.com/bar_peat_99/" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+      <a href="https://x.com/BARPEAT_1999" target="_blank" rel="noopener" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a>
+      <a href="https://www.facebook.com/takashi.morioka.75" target="_blank" rel="noopener" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+    </div>
+    <a href="tel:0473783932" class="mobile_nav_tel">047-378-3932</a>
+  </div>
+</div>
+
+<!-- ══════════════ HERO ══════════════ -->
+<section id="hero">
+  <div class="swiper hero_swiper">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide">
+        <img src="top1.jpg" alt="BAR PEAT" />
+      </div>
+      <div class="swiper-slide">
+        <img src="top2.jpg" alt="BAR PEAT" />
+      </div>
+      <div class="swiper-slide">
+        <img src="top3.jpg" alt="BAR PEAT" />
+      </div>
+    </div>
+    <div class="swiper-scrollbar"></div>
+  </div>
+
+  <div class="hero_content">
+    <h1 class="hero_title">BAR PEAT</h1>
+    <p class="hero_sub">バー ピート &ensp;&mdash;&ensp; 本八幡 南口より徒歩2分</p>
+  </div>
+
+  <div class="hero_scroll">
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- ══════════════ ABOUT + SNS（Shannons スタイル 2カラム）══════════════ -->
+<section id="about_sns">
+  <div class="l_container">
+    <div class="about_sns_wrap">
+
+      <!-- Left: Concept / About -->
+      <div class="about_col js_reveal">
+
+        <div class="c_headingLv1">
+          <span class="en">Concept</span>
+          <h2 class="c_borderTitle">大人の隠れ家バー</h2>
+        </div>
+
+        <div class="about_main_img">
+          <img src="main.jpg" alt="BAR PEAT" />
+        </div>
+
+        <span class="concept_tag">About BAR PEAT</span>
+
+        <div class="c_headingLv2">
+          <span class="ja">静かな一夜を、あなたへ。</span>
+        </div>
+
+        <div class="c_lead">
+          <p>
+            店名の「PEAT」はスコッチ造りに欠かせない薫香の源。そんな芳醇な香りに包まれながら、一日の終わりを締めくくる仕事後の一杯をお愉しみください。
+          </p>
+          <p>
+            ウイスキーを中心に約500種類の品揃え。味に拘る店主が作る絶品スタンダードカクテル。季節限定やオリジナルカクテルも人気です。
+          </p>
+          <p>
+            お一人で自分と向き合う夜も、大切な人との語らいの時も。こだわりの銘柄と共に、心ゆくまでゆったりとした夜の余韻に浸ってみませんか。
+          </p>
+        </div>
+
+        <div class="about_photo_swiper_wrap js_reveal">
+          <div class="swiper about_photo_swiper">
+            <div class="swiper-wrapper">
+              <div class="swiper-slide"><img src="photo1.jpg" alt="BAR PEAT" /></div>
+              <div class="swiper-slide"><img src="photo2.jpg" alt="BAR PEAT" /></div>
+              <div class="swiper-slide"><img src="photo3.jpg" alt="BAR PEAT" /></div>
+            </div>
+            <div class="swiper-pagination"></div>
+          </div>
+        </div>
+
+      </div>
+
+
+      <!-- /sns_col -->
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════ ACCESS ══════════════ -->
+<section id="access" class="l_bgGray">
+  <div class="l_container">
+
+    <div class="c_section_title js_reveal">
+      <h2 class="c_borderTitle">店舗情報・アクセス</h2>
+    </div>
+
+    <div class="access_grid">
+      <div class="js_reveal">
+        <div class="access_map">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3239.2560860796084!2d139.92550507578946!3d35.71991997257487!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x601886d0e9668f43%3A0xead2f939adfe957d!2sBAR%20PEAT!5e0!3m2!1sja!2sjp!4v1777281286584!5m2!1sja!2sjp"
+            allowfullscreen="" loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            title="BAR PEAT アクセスマップ">
+          </iframe>
+        </div>
+        <div class="access_route">
+          <p>
+            <span class="icon">🚃</span>
+            <span><strong>JR総武線「本八幡駅」南口</strong>より徒歩2分<br />
+            <small style="color:var(--color-muted);font-size:.82rem;">マクドナルドの十字路を左折 → 西友の次の十字路 左側 2階</small></span>
+          </p>
+          <p>
+            <span class="icon">🚃</span>
+            <span><strong>京成本線「京成八幡駅」</strong>より徒歩6分</span>
+          </p>
+        </div>
+      </div>
+
+      <div class="js_reveal">
+        <table class="info_table">
+          <tr><th>所在地</th><td>千葉県市川市南八幡3-4-8<br />HKアルファビル 2F</td></tr>
+          <tr><th>電話</th><td><a href="tel:0473783932" style="color:var(--color-theme);letter-spacing:.08em;">047-378-3932</a></td></tr>
+          <tr><th>営業時間</th><td><strong>17:00 〜 翌02:00</strong></td></tr>
+          <tr><th>定休日</th><td><strong>毎週日曜日</strong><small>連休の場合は最終日が休業</small></td></tr>
+
+          <tr><th>予算目安</th><td>2,000円 〜 3,999円</td></tr>
+          <tr>
+            <th>お支払い</th>
+            <td>クレジットカード可
+              <ul class="card_list">
+                <li>VISA</li><li>Master</li><li>JCB</li><li>AMEX</li><li>Diners</li>
+              </ul>
+            </td>
+          </tr>
+          <tr><th>席数</th><td><strong>全18席</strong><small>カーブカウンター10席 ＋ 4人掛けテーブル×2卓</small></td></tr>
+          <tr><th>設備</th><td>全席喫煙可 ／ 20歳未満は入店不可<br /><small>※駐車場なし</small></td></tr>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════ CTA ══════════════ -->
+<section id="cta">
+  <div class="cta_bg"></div>
+  <div class="l_container cta_content js_reveal">
+    <span class="cta_title">Inquiry</span>
+    <h2 class="cta_heading">お問い合わせ</h2>
+    <a href="tel:0473783932" class="cta_tel">&#9990;&ensp;047-378-3932</a>
+    <p class="cta_note">営業時間内にお気軽にお電話ください</p>
+  </div>
+</section>
+
+<!-- ══════════════ FOOTER ══════════════ -->
+<footer id="footer">
+  <div class="l_container">
+    <div class="footer_top">
+      <div>
+        <div class="footer_logo">
+          BAR PEAT
+          <small>バー ピート ／ 本八幡</small>
+        </div>
+        <p class="footer_addr">
+          〒272-0023<br />
+          千葉県市川市南八幡3-4-8<br />
+          HKアルファビル 2F<br />
+          TEL: 047-378-3932
+        </p>
+
+      </div>
+      <div class="footer_nav_group">
+        <div>
+          <p class="footer_nav_label">Navigation</p>
+          <ul>
+            <li><a href="#about_sns">コンセプト</a></li>
+            <li><a href="#access">アクセス</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer_nav_label">Information</p>
+          <ul>
+            <li><a href="#access">営業時間</a></li>
+            <li><a href="#access">定休日</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer_nav_label">Contact</p>
+          <ul>
+            <li><a href="tel:0473783932">047-378-3932</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer_copy">
+    <p>&copy; BAR PEAT All Rights Reserved. &ensp; 千葉県市川市南八幡3-4-8 HKアルファビル 2F</p>
+  </div>
+</footer>
+
+<!-- ══════════════ JS ══════════════ -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script>
+  /* ── Loading Screen ── */
+  window.addEventListener('load', function () {
+    setTimeout(function () {
+      document.getElementById('js_loading').classList.add('is_hidden');
+    }, 1700);
+  });
+
+  /* ── Hero Swiper ── */
+  new Swiper('.hero_swiper', {
+    loop: true,
+    speed: 1200,
+    autoplay: { delay: 5000, disableOnInteraction: false },
+    slidesPerView: 1,
+    spaceBetween: 0,
+    grabCursor: true,
+    scrollbar: { el: '.hero_swiper .swiper-scrollbar', draggable: true },
+    on: {
+      slideChangeTransitionStart: function () {
+        document.querySelectorAll('.hero_swiper .swiper-slide img').forEach(img => {
+          img.style.transform = 'scale(1.0)';
+        });
+      },
+      slideChangeTransitionEnd: function () {
+        const activeImg = document.querySelector('.hero_swiper .swiper-slide-active img');
+        if (activeImg) activeImg.style.transform = 'scale(1.06)';
+      },
+      init: function () {
+        const activeImg = document.querySelector('.hero_swiper .swiper-slide-active img');
+        if (activeImg) activeImg.style.transform = 'scale(1.06)';
+      }
+    }
+  });
+
+  /* ── About Photo Swiper ── */
+  new Swiper('.about_photo_swiper', {
+    loop: true,
+    speed: 1000,
+    autoplay: { delay: 3000, disableOnInteraction: false },
+    pagination: { el: '.about_photo_swiper .swiper-pagination', clickable: true },
+  });
+
+
+
+  /* ── Header scroll ── */
+  const header = document.getElementById('header');
+  window.addEventListener('scroll', () => {
+    header.classList.toggle('is_color', window.scrollY > 60);
+  });
+
+  /* ── Mobile Nav ── */
+  const mobileNav = document.getElementById('js_mobileNav');
+  const hamburger = document.querySelector('.header_hamburger');
+  const mobileLinks = document.querySelectorAll('.mobile_nav_link');
+
+  hamburger.addEventListener('click', () => {
+    const isOpen = mobileNav.classList.toggle('is_open');
+    hamburger.classList.toggle('is_open', isOpen);
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+  });
+
+  mobileLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      mobileNav.classList.remove('is_open');
+      hamburger.classList.remove('is_open');
+      document.body.style.overflow = '';
+    });
+  });
+
+
+
+  /* ── Scroll Reveal ── */
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is_visible');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.js_reveal').forEach(el => revealObserver.observe(el));
+
+  /* ── Border title animation ── */
+  const titleObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is_animated');
+        titleObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.5 });
+  document.querySelectorAll('.c_borderTitle').forEach(el => titleObserver.observe(el));
+</script>
+
+</body>
+</html>
