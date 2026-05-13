@@ -222,7 +222,7 @@
       text-transform: uppercase;
     }
 
-    .c_borderTitle {
+    .c_heading_main {
       display: inline-block;
       font-family: var(--ff-heading-jp);
       font-size: 2.4rem;
@@ -230,11 +230,15 @@
       letter-spacing: .12em;
       line-height: 1.3;
       color: var(--color-text-main);
+    }
+
+    .c_borderLine {
+      display: inline-block;
       position: relative;
       padding-bottom: 24px;
     }
 
-    .c_borderTitle::after {
+    .c_borderLine::after {
       content: '';
       position: absolute;
       bottom: 0;
@@ -247,8 +251,13 @@
       transition: transform .8s cubic-bezier(.25, .46, .45, .94);
     }
 
-    .c_borderTitle.is_animated::after {
+    .c_borderLine.is_animated::after {
       transform: scaleX(1);
+    }
+
+    .en.c_borderLine {
+      padding-bottom: 12px;
+      margin-bottom: 1.2rem;
     }
 
     .c_headingLv2 {
@@ -286,6 +295,11 @@
 
     .c_lead p+p {
       margin-top: 1.2em;
+    }
+
+    .c_lead_catch span {
+      display: block;
+      white-space: nowrap;
     }
 
     /* ════════════════════════════════════════
@@ -928,7 +942,7 @@
       display: inline-flex;
       align-items: center;
       gap: 1rem;
-      font-family: var(--ff-en);
+      font-family: var(--ff-body);
       font-size: clamp(2rem, 5vw, 3.2rem);
       font-weight: 400;
       letter-spacing: .1em;
@@ -1088,6 +1102,10 @@
       color: var(--color-text-dim);
     }
 
+    .footer_copy p span {
+      display: inline-block;
+    }
+
     /* ════════════════════════════════════════
        Side Button
     ════════════════════════════════════════ */
@@ -1178,7 +1196,7 @@
         padding: 80px 0;
       }
 
-      .c_borderTitle {
+      .c_heading_main {
         font-size: 1.9rem;
       }
 
@@ -1198,6 +1216,22 @@
 
       .about_main_img {
         height: 260px;
+      }
+
+      .c_lead {
+        font-size: clamp(0.72rem, 3.6vw, 1rem);
+      }
+
+      .c_lead_catch {
+        line-height: 2.1;
+      }
+
+      .footer_copy p span {
+        display: block;
+      }
+
+      .footer_copy p span+span {
+        margin-top: 0.5rem;
       }
     }
   </style>
@@ -1311,8 +1345,8 @@
         <div class="about_col js_reveal">
 
           <div class="c_headingLv1">
-            <span class="en">Concept</span>
-            <h2 class="c_borderTitle">大人の隠れ家バー</h2>
+            <span class="en c_borderLine">Concept</span>
+            <h2 class="c_heading_main">大人の隠れ家バー</h2>
           </div>
 
           <div class="about_main_img">
@@ -1329,8 +1363,10 @@
             <p>
               店名の「PEAT」はスコッチ造りに欠かせない薫香の源。そんな芳醇な香りに包まれながら、一日の終わりを締めくくる仕事後の一杯をお愉しみください。
             </p>
-            <p>
-              ウイスキーを中心に約500種類の品揃え。味に拘る店主が作る絶品スタンダードカクテル。季節限定やオリジナルカクテルも人気です。
+            <p class="c_lead_catch">
+              <span>ウイスキーを中心に約500種類の品揃え。</span>
+              <span>味に拘る店主が作る絶品スタンダードカクテル。</span>
+              <span>季節限定やオリジナルカクテルも人気です。</span>
             </p>
             <p>
               お一人で自分と向き合う夜も、大切な人との語らいの時も。こだわりの銘柄と共に、心ゆくまでゆったりとした夜の余韻に浸ってみませんか。
@@ -1374,7 +1410,7 @@
     <div class="l_container">
 
       <div class="c_section_title js_reveal">
-        <h2 class="c_borderTitle">店舗情報・アクセス</h2>
+        <h2 class="c_heading_main c_borderLine">店舗情報・アクセス</h2>
       </div>
 
       <div class="access_grid">
@@ -1388,12 +1424,16 @@
           <div class="access_route">
             <p>
               <span class="icon">🚃</span>
-              <span><strong>JR総武線「本八幡駅」南口</strong>より徒歩2分<br />
-                <small style="color:var(--color-muted);font-size:.82rem;">マクドナルドの十字路を左折 → 西友の次の十字路 左側 2階</small></span>
+              <span><strong>JR総武線「本八幡駅」南口</strong>より<br>徒歩2分<br />
+                <small style="color:var(--color-muted);font-size:.82rem;">マクドナルドの十字路を左折 →<br>西友の次の十字路 左側 2階</small></span>
             </p>
             <p>
               <span class="icon">🚃</span>
-              <span><strong>京成本線「京成八幡駅」</strong>より徒歩6分</span>
+              <span><strong>京成本線「京成八幡駅」</strong>より<br>徒歩6分</span>
+            </p>
+            <p>
+              <span class="icon">🚃</span>
+              <span><strong>都営新宿線「本八幡駅」</strong>より<br>徒歩6分</span>
             </p>
           </div>
         </div>
@@ -1423,7 +1463,7 @@
             </tr>
             <tr>
               <th>お支払い</th>
-              <td>クレジットカード・paypay
+              <td>現金<br>クレジット・PayPay
                 <ul class="card_list">
                   <li>VISA</li>
                   <li>Master</li>
@@ -1436,11 +1476,11 @@
             </tr>
             <tr>
               <th>席数</th>
-              <td><strong>全18席</strong><small>カーブカウンター10席 ＋ 4人掛けテーブル×2卓</small></td>
+              <td><strong>全18席</strong><small>カーブカウンター10席 ＋<br>4人掛けテーブル×2卓</small></td>
             </tr>
             <tr>
               <th>設備</th>
-              <td>全席喫煙可 ／ 20歳未満は入店不可<br /><small>※駐車場なし</small></td>
+              <td>全席喫煙可 ／<br>20歳未満は入店不可<br /><small>※駐車場なし</small></td>
             </tr>
           </table>
         </div>
@@ -1455,7 +1495,7 @@
     <div class="l_container cta_content js_reveal">
       <span class="cta_title">Inquiry</span>
       <h2 class="cta_heading">お問い合わせ</h2>
-      <a href="tel:0473783932" class="cta_tel">&#9990;&ensp;047-378-3932</a>
+      <a href="tel:0473783932" class="cta_tel">047-378-3932</a>
       <p class="cta_note">営業時間内にお気軽にお電話ください</p>
     </div>
   </section>
@@ -1513,7 +1553,7 @@
       </div>
     </div>
     <div class="footer_copy">
-      <p>&copy; BAR PEAT All Rights Reserved. &ensp; 千葉県市川市南八幡3-4-8 HKアルファビル 2F</p>
+      <p><span>&copy; BAR PEAT All Rights Reserved.</span> <span>千葉県市川市南八幡3-4-8 HKアルファビル 2F</span></p>
     </div>
   </footer>
 
@@ -1610,7 +1650,7 @@
         }
       });
     }, { threshold: 0.5 });
-    document.querySelectorAll('.c_borderTitle').forEach(el => titleObserver.observe(el));
+    document.querySelectorAll('.c_borderLine').forEach(el => titleObserver.observe(el));
   </script>
 
 </body>
