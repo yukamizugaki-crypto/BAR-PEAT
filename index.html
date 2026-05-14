@@ -256,8 +256,14 @@
     }
 
     .en.c_borderLine {
+      display: block;
+      width: fit-content;
       padding-bottom: 8px;
       margin-bottom: 1.2rem;
+    }
+
+    .en.c_borderLine::after {
+      width: calc(100% - 0.38em);
     }
 
     .c_headingLv2 {
@@ -1425,7 +1431,8 @@
             <p>
               <span class="icon">🚃</span>
               <span><strong>JR総武線「本八幡駅」南口</strong>より<br>徒歩2分<br />
-                <small style="color:var(--color-muted);font-size:.82rem;">マクドナルドの十字路を左折 →<br>西友の次の十字路 左側 2階</small></span>
+                <small style="color:var(--color-muted);font-size:.82rem;">マクドナルドの十字路を左折 →<br>西友の次の十字路 左側
+                  2階</small></span>
             </p>
             <p>
               <span class="icon">🚃</span>
